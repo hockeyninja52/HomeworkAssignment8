@@ -1,0 +1,249 @@
+package hw8;
+import java.util.Random; 
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		int[] x;
+		int[] y;
+		Random random = new Random();
+		Scanner scan = new Scanner(System.in);
+		System.out.println("This is all of the array sorting methods we studied in class.");
+		
+		
+		
+		long startTimea = System.currentTimeMillis();
+		bubble_sort();
+		long endTimea = System.currentTimeMillis();
+		
+		long startTimeb = System.currentTimeMillis();
+		selection_sort();
+		long endTimeb = System.currentTimeMillis();
+		
+		long startTimec = System.currentTimeMillis();
+		insertion_sort();
+		long endTimec = System.currentTimeMillis();
+		
+		for(int i = 0; i < 3; i++) {
+			long startTimed = System.currentTimeMillis();
+			shell_sort();
+			long endTimed = System.currentTimeMillis();
+			System.out.println("Sorting an array using Bubble Sort took " + (endTimed - startTimed) + " miliseconds to complete");
+		}
+		for(int i = 0; i < 3; i++) {
+			long startTimee = System.currentTimeMillis();
+			quick_sort();
+			long endTimee = System.currentTimeMillis();
+			System.out.println("Sorting an array using Bubble Sort took " + (endTimee - startTimee) + " miliseconds to complete");
+		}
+		
+		System.out.println("Sorting an array using Bubble Sort took " + (endTimea - startTimea) + " miliseconds to complete");
+		System.out.println("Sorting an array of using Selection Sort took " + (endTimeb - startTimeb) + " miliseconds to complete");
+		System.out.println("Sorting an array of using Insertion Sort took " + (endTimec - startTimec) + " miliseconds to complete");
+	}
+		
+	public static int[] smallArray() {
+		Random random = new Random();
+		Scanner scan = new Scanner(System.in);
+			
+		int n = 10000; 
+		int x = 0;
+		int p = 0;
+		int c = 1;
+		boolean numfound = false;
+		
+		int[] randomArray = new int[n];
+		
+		while(x < n - 1) {
+			numfound = false;
+			p = random.nextInt(100000);
+			for(int i = 0; i < n; i++) {
+				if(randomArray[i] == p) {
+					numfound = true;
+					break;
+				}
+			}
+			if(!numfound) {
+				randomArray[x] = p;
+				x++;
+			}
+		}
+		
+		return(randomArray);
+	}
+		
+	public static int[] largeArray() {
+		Random random = new Random();
+		Scanner scan = new Scanner(System.in);
+		
+		int n = 100000; 
+		int x = 0;
+		int p = 0;
+		int c = 1;
+		boolean numfound = false;
+		
+		int[] randomArray1 = new int[n];
+		
+		while(x < n - 1) {
+			numfound = false;
+			p = random.nextInt(10000000);
+			for(int i = 0; i < n; i++) {
+				if(randomArray1[i] == p) {
+					numfound = true;
+					break;
+				}
+				
+			}
+			if(!numfound) {
+				randomArray1[x] = p;
+				x++;
+			}
+		}
+		
+		return(randomArray1);
+	}
+	
+
+	
+	public static void bubble_sort() {
+		int[] x = smallArray();
+		int temp;
+		boolean swapped;
+		
+		for(int i = 0; i < x.length - 1; i++) {
+			swapped = false;
+			for(int j = 0; j < x.length - i - 1; j++) {
+				if(x[j] > x[j + 1]) {
+					temp = x[j];
+					x[j] = x[j + 1];
+					x[j + 1] = temp;
+					swapped = true;
+				}
+			}
+			if (swapped == false) {
+				break;
+			}
+		}
+		System.out.println("Bubble Sort");
+		for(int i = 0; i < x.length; i++) {
+			System.out.print(x[i] + " ");
+		}
+	}
+	
+	public static void selection_sort() {
+		int[] x = smallArray();
+		int indexsmallest; 
+		int temp;
+		
+		for(int i = 0; i < x.length; i++) {
+			System.out.print(x[i] + " ");
+		}
+		
+		for(int i = 0; i < x.length - 1; i++) {
+			indexsmallest = i;
+			
+			for(int j = i + 1; j < x.length; j++) {
+				if(x[j] < x[indexsmallest]) {
+					indexsmallest = j;
+				}
+			}
+			temp = x[i];
+			x[i] = x[indexsmallest];
+			x[indexsmallest] = temp;
+		}
+		System.out.println("Selection Sort");
+		for(int i = 0; i < x.length; i++) {
+			System.out.print(x[i] + " ");
+		}
+		
+	}
+	
+	public static void insertion_sort() {
+		int[] x = smallArray();
+		int temp;
+		int j;
+		
+		for(int i = 0; i < x.length; i++) {
+			j = i;
+			while(j > 0 && x[j] < x[j - 1]) {
+				temp = x[j];
+				x[j] = x[j - 1];
+				x[j - 1] = temp;
+				j--;
+			}
+		}
+		
+		System.out.println("Insertion Sort");
+		for(int i = 0; i < x.length; i++) {
+			System.out.print(x[i] + " ");
+		}
+	}
+	
+	public static void shell_sort() {
+		//youtube tutorial: https://www.youtube.com/watch?app=desktop&v=IViqgakt-Eg
+		int[] x = largeArray();
+		int temp;
+		int j;
+		
+		for(int gap = x.length / 2; gap > 0; gap /= 2) {
+			for(int i = gap; i < x.length; i++) {
+				j = i;
+				while(j >= gap && x[j] > x[j - gap]) {
+					temp = x[j];
+					x[j] = x[j - gap];
+					x[j - 1] = temp;
+					j -= gap ;
+				}
+			}
+		}
+		System.out.println("Shell Sort");
+		for(int i = 0; i < x.length; i++) {
+			System.out.print(x[i] + " ");
+		}
+	}
+	
+	public static void quick_sort() {
+		int[] x = largeArray();
+		int lowIndex = 0;
+		int highIndex = x.length - 1;
+		int midpoint = lowIndex + (highIndex - lowIndex) / 2;
+		quick_sort1(x, lowIndex, highIndex);		
+	}
+	public static void quick_sort1(int[] x, int lowIndex, int highIndex) {
+		if(highIndex <= lowIndex) {
+			return;
+		}
+		int pivot = partition(x, lowIndex, highIndex);
+		quick_sort1(x, lowIndex, pivot - 1);
+		quick_sort1(x, pivot + 1, highIndex);
+		
+		System.out.println("Quick Sort");
+		for(int i = 0; i < x.length; i++) {
+			System.out.print(x[i] + " ");
+		}
+		
+	}
+		
+	public static int partition(int[] x, int lowIndex, int highIndex) {
+		int pivot = x[highIndex];
+		int i = lowIndex - 1;
+		int temp;
+		
+		for(int j = lowIndex; j <= highIndex - 1; j++) {
+			if(x[j] < pivot) {
+				i++;
+				temp = x[i];
+				x[i] = x[j];
+				x[j] = temp;
+			}
+		}
+		i++;
+		
+		temp = x[i];
+		x[i] = x[highIndex];
+		x[highIndex] = temp;
+		
+		return i;
+	}
+}
